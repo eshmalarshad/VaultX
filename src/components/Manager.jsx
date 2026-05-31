@@ -54,7 +54,7 @@ const Manager = () => {
 
             setpasswordArray([...passwordArray.filter(item => item.id !== form.id), newPassword])
 
-            await fetch("http://localhost:3000/", {
+            await fetch(`${API_URL}/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newPassword)
