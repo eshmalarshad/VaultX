@@ -5,15 +5,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { v4 as uuidv4 } from "uuid";
 
 const Manager = () => {
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
+
     const [form, setform] = useState({ site: "", username: "", password: "" })
     const [passwordArray, setpasswordArray] = useState([])
-    
     const ref = useRef()
     const passwordRef = useRef()
 
     const getPasswords = async () => {
-        let req = await fetch(`${API_URL}/`)
+        let req = await fetch("http://localhost:3000/")
         let passwords = await req.json();
         setpasswordArray(passwords)
     }
@@ -45,7 +44,7 @@ const Manager = () => {
 
             // Delete only when editing old password
             if (form.id) {
-                await fetch(`${API_URL}/`, {
+                await fetch("http://localhost:3000/", {
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ id: form.id })
@@ -54,7 +53,7 @@ const Manager = () => {
 
             setpasswordArray([...passwordArray.filter(item => item.id !== form.id), newPassword])
 
-            await fetch(`${API_URL}/`, {
+            await fetch("http://localhost:3000/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newPassword)
@@ -77,7 +76,7 @@ const Manager = () => {
         let c = confirm("Do you really want to delete this password?")
         if (c) {
             setpasswordArray(passwordArray.filter(item => item.id !== id))
-            let res = await fetch(`${API_URL}/`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
+            let res = await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
             // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)))
             toast.success('Password Deleted Successfully!', {
                 position: "top-center",
